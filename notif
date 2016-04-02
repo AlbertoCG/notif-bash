@@ -1,0 +1,14 @@
+#!/bin/bash
+ARG=$1
+
+case "$ARG" in
+  clear) cat /dev/null > /home/$USER/messages.log
+      ;;
+  count) echo $(wc -l /home/$USER/messages.log)
+      ;;
+  irc) echo $(date) - New IRC Message! >> /home/$USER/messages.log
+      twmnc -t IRC -c "New message!" --pos bottom_right
+      ;;
+    mpd_current) twmnc -d 1000 --pos bottom_left -t MPD -c "$(mpc current)"
+      ;;
+esac
