@@ -7,4 +7,5 @@ las mismas con twmnc.
 - irc: nuevo mensaje de irc (con logueo de fecha).
 - mpd_current: canción actual de mpd.
 - clear: para limpiar ~/messages.log
-- count: para obtener la cantidad de notificaciones
+- count: para obtener la cantidad de notificaciones.
+- view: ver las notificaciones guardadas.
