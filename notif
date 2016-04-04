@@ -8,9 +8,11 @@ case "$ARG" in
   count) echo $(wc -l $FILE | awk '{print $1}')
       ;;
   irc) USER=$2
-    split 2
-    MESSAGE=$@
-#    MESSAGE=$(echo $MESSAGE | sed -e s/\'/\\\\'/g)
+#      echo user: $USER
+      shift 2
+#      echo $@
+      MESSAGE=$@
+#      echo Message: $MESSAGE
       echo $(date) IRC MESSAGE - $USER : "$MESSAGE" >> $FILE
       twmnc -d 4000 -t "IRC - $USER" -c "$(echo $MESSAGE | cut -c1-50)" --pos bottom_right
       ;;
