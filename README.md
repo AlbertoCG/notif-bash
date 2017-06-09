@@ -1,6 +1,10 @@
 # notif
 
-Esta utilidad está en desarrollo para el manejo de notificaciones y registros de las mismas con el script `popup` de z3bra, utilizando lemonbar.
+**2017/06/09**
+
+Actualmente utiliza notify-send para trabajar en conjunto con dunst.
+
+*Esta utilidad está en desarrollo para el manejo de notificaciones y registros de las mismas con el script `popup` de z3bra, utilizando lemonbar.*
 
 ### Notificaciones añadidas
 - irc: nuevo mensaje de irc (con logueo de fecha).
