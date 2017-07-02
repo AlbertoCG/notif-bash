@@ -1,6 +1,27 @@
 #!/bin/bash
 ARG=$1
 FILE=/home/$USER/messages.log
+BATTERY=/sys/class/power_supply/BAT0/
+
+batterystatus() {
+    if [ "$(cat $BATTERY/status)" == "Discharging" ]; then
+        echo '<b>🔋discharging:</b>' "$(cat $BATTERY/capacity)%"
+    elif [ "$(cat $BATTERY/status)" == "Charging" ]; then
+        echo '<b>🔋charging:</b>' "$(cat $BATTERY/capacity)%"
+    else
+        echo '<b>🔋full</b>'
+    fi
+}
+
+nowplaying() {
+    if [ "$(playerctl status)" == "Playing" ]; then
+        echo '<b>▶</b>' "$(playerctl metadata artist) - $(playerctl metadata title)"
+    elif [ "$(playerctl status)" == "Paused" ]; then
+        echo '<b>Ⅱ</b>' "$(playerctl metadata artist) - $(playerctl metadata title)"
+    else 
+        echo ""
+    fi 
+}
 
 case "$ARG" in
     clear) cat /dev/null > $FILE
@@ -11,22 +32,13 @@ case "$ARG" in
         shift 2
         MESSAGE=$@
         echo $(date '+%Y/%m/%d %H:%M') IRC - $USER : "$MESSAGE" >> $FILE
-        notify-send "irc - $USER: " "$(echo $MESSAGE | cut -c1-50)"
+        notify-send "💬 irc - $USER: " "$(echo $MESSAGE | cut -c1-50)"
         ;;
-    mpd_current)
-        notify-send "♪ currently playing: " "$(mpc current)"
-        ;;
-    date)
-        notify-send "date: " "$(date '+%Y/%m/%d %H:%M')"
-        ;;
-    volume)
-        notify-send "volume: " "$(amixer get Master | sed -n 's/^.*\[\([0-9]\+%\).*$/\1/p' | uniq)"
-        ;;
-    battery)
-        notify-send "battery level: " "$(cat /sys/class/power_supply/BAT0/capacity)"
+    playing)
+        notify-send "♪ currently playing: " "$(playerctl metadata artist) - $(playerctl metadata title)"
         ;;
     info)
-        notify-send 'system information ' "\n<b>date:</b> $(date '+%Y/%m/%d %H:%M')  | <b>volume:</b> $(amixer get Master | sed -n 's/^.*\[\([0-9]\+%\).*$/\1/p' | uniq) | <b>battery:</b> $(cat /sys/class/power_supply/BAT0/capacity)"
+        notify-send '🖥system information ' "\n<b>📆date:</b> $(date '+%Y/%m/%d %H:%M') | <b>🔉volume:</b> $(amixer get Master | sed -n 's/^.*\[\([0-9]\+%\).*$/\1/p' | uniq) | $(batterystatus) \n $(nowplaying)"
         ;;
     view) COUNT=$(wc -l $FILE | awk '{print $1}')
         tail -n $COUNT $FILE | less

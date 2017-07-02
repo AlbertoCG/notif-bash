@@ -3,16 +3,14 @@
 **2017/06/09**
 
 Actualmente utiliza notify-send para trabajar en conjunto con dunst.
+It uses notify-send to work with dunst.
 
-*Esta utilidad está en desarrollo para el manejo de notificaciones y registros de las mismas con el script `popup` de z3bra, utilizando lemonbar.*
+*Requires notify-send, amixer and playerctl*
 
-### Notificaciones añadidas
-- irc: nuevo mensaje de irc (con logueo de fecha).
-- mpd_current: canción actual de mpd.
-- clear: para limpiar ~/messages.log
-- count: para obtener la cantidad de notificaciones.
-- view: ver las notificaciones guardadas.
-- date: fecha.
-- volume: volumen del sistema.
-- battery: nivel de batería.
-- info: barra de estado con fecha, volumen y bateria.
+## Notifications `notif [notification]`
+- irc: new IRC (weechat) messages. Logs highlights to specified file.
+- clear: to clear messages log.
+- count: counts log file lines (messages).
+- view: reads log using `less`.
+- playing: currently playing song. Uses `playerctl`.
+- info: status bar. It displays date, volume, battery and playing song.
