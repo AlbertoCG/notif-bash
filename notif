@@ -2,6 +2,7 @@
 ARG=$1
 FILE=/home/$USER/messages.log
 BATTERY=/sys/class/power_supply/BAT0/
+BOX="$HOME/mail/acg/INBOX"
 
 batterystatus() {
     if [ "$(cat $BATTERY/status)" == "Discharging" ]; then
@@ -23,6 +24,17 @@ nowplaying() {
     fi 
 }
 
+newmails(){
+    COUNT="$(ls -l $BOX/new | wc -l)"
+    NEW="$(expr $COUNT - 1)"
+
+    if (($NEW == 0)); then
+        echo "💬 $NEW |"
+    else
+        echo "💬 $NEW |"
+    fi
+}
+
 case "$ARG" in
     clear) cat /dev/null > $FILE
         ;;
@@ -38,7 +50,7 @@ case "$ARG" in
         notify-send "♪ currently playing: " "$(playerctl metadata artist) - $(playerctl metadata title)"
         ;;
     info)
-        notify-send '🖥system information ' "\n<b>📆date:</b> $(date '+%Y/%m/%d %H:%M') | <b>🔉volume:</b> $(amixer get Master | sed -n 's/^.*\[\([0-9]\+%\).*$/\1/p' | uniq) | $(batterystatus) \n $(nowplaying)"
+        notify-send '🖥system information ' "\n$(newmails) <b>🔉</b> $(amixer get Master | sed -n 's/^.*\[\([0-9]\+%\).*$/\1/p' | uniq) | $(batterystatus) | <b>📆</b> $(date '+%Y/%m/%d %H:%M')\n $(nowplaying)"
         ;;
     view) COUNT=$(wc -l $FILE | awk '{print $1}')
         tail -n $COUNT $FILE | less

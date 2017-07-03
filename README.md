@@ -2,7 +2,6 @@
 
 **2017/06/09**
 
-Actualmente utiliza notify-send para trabajar en conjunto con dunst.
 It uses notify-send to work with dunst.
 
 *Requires notify-send, amixer and playerctl*
@@ -13,4 +12,4 @@ It uses notify-send to work with dunst.
 - count: counts log file lines (messages).
 - view: reads log using `less`.
 - playing: currently playing song. Uses `playerctl`.
-- info: status bar. It displays date, volume, battery and playing song.
+- info: status bar. It displays emails count, date, volume, battery and playing song.
